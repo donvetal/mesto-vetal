@@ -1,0 +1,10 @@
+.card {
+    margin: 0 auto;
+    padding: 0;
+    box-sizing: border-box;
+    max-width: 282px;
+    min-width: 282px;
+    position: relative;
+
+
+}

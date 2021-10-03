@@ -1,0 +1,15 @@
+.elements-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(282px, 1fr));
+    grid-gap: 20px;
+    margin: 0 auto;
+    padding: 0;
+    list-style: none;
+}
+
+@media (min-width: 880px) {
+
+    .elements-cards {
+        grid-column-gap: 17px;
+    }
+}

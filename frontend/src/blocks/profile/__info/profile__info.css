@@ -1,0 +1,23 @@
+.profile__info {
+    margin: 0 auto;
+    padding: 26px 0 36px;
+    max-width: 282px;
+}
+
+@media (min-width: 768px) {
+    .profile__info {
+        padding-left: 30px;
+        padding-top: 0;
+        padding-bottom: 0;
+        min-width: 336px;
+        min-height: 73px;
+        margin-left: 0;
+        margin-right: 0;
+    }
+}
+
+@media (min-width: 880px) {
+    .profile__info {
+        padding-right: 244px;
+    }
+}

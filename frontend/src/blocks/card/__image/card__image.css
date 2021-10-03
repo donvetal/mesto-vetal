@@ -1,0 +1,14 @@
+.card__image {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 282px;
+    max-height: 282px;
+    box-sizing: border-box;
+    display: block;
+    border-radius: 10px 10px 0 0;
+    min-width: auto;
+    cursor: pointer;
+    object-fit: cover;
+    object-position: 50% 50%;
+}

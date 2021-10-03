@@ -1,0 +1,21 @@
+.login__input {
+    margin: 0 auto;
+    padding: 0;
+    width: 358px;
+    min-height: 27px;
+    font-size: 14px;
+    font-weight: 400;
+    text-align: start;
+    box-sizing: border-box;
+    border-bottom: 2px solid rgba(204, 204, 204, 1);
+    border-top-style: none;
+    border-left-style: none;
+    border-right-style: none;
+    display: inline-block;
+    background-color: black;
+    color: white;
+}
+
+.login__input:last-of-type {
+    margin: 30px auto 216px;
+}

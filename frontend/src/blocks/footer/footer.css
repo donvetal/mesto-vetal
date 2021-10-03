@@ -1,0 +1,18 @@
+.footer {
+    display: flex;
+    padding: 48px 19px 36px;
+    margin: 0 auto;
+    max-height: 14px;
+
+}
+
+@media (min-width: 880px) {
+    .footer {
+        max-height: 18px;
+        padding-top: 66px;
+        padding-bottom: 60px;
+
+    }
+
+}
+

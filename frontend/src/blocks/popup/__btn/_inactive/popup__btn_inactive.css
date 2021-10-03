@@ -1,0 +1,15 @@
+.popup__btn_inactive {
+    background-color: #FFFFFF;
+    opacity: 0.2;
+    color: black;
+    cursor: not-allowed;
+    border: 1px solid black;
+}
+
+
+@media (min-width: 720px) {
+    .popup__btn_inactive {
+        font-size: 18px;
+        min-height: 50px;
+    }
+}

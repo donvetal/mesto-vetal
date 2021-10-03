@@ -1,0 +1,26 @@
+.login__btn {
+    margin: 0 auto;
+    padding: 0;
+    width: 358px;
+    min-height: 46px;
+    background-color: rgba(255, 255, 255, 1);
+    color: black;
+    border-radius: 2px;
+    font-size: 18px;
+    font-weight: 400;
+    cursor: pointer;
+    border-style: none;
+    transition: opacity 0.5s linear;
+}
+
+.login__btn:hover {
+    opacity: 0.85;
+}
+
+.login__btn:disabled {
+    background-color: #FFFFFF;
+    opacity: 0.2;
+    color: black;
+    cursor: not-allowed;
+    border: 1px solid black;
+}
