@@ -8,7 +8,9 @@
     "lint": "npx eslint .",
     "start": "node app.js",
     "dev": "nodemon app.js",
-    "mongod": "brew services start mongodb-community@4.4"
+    "mongod": "brew services start mongodb-community@4.4",
+    "deploy": "ssh vitaliymontana@130.193.43.158 \"git clone  https://github.com/donvetal/mesto-vetal.git && cd mesto-vetal/backend && npm install && npm start\"",
+    "redeploy": "ssh vitaliymontana@130.193.43.158 \"git pull\""
   },
   "keywords": [],
   "author": "Dolzhenko Vitaliy",
@@ -20,8 +22,15 @@
     "nodemon": "^2.0.12"
   },
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
+    "celebrate": "^15.0.0",
+    "cookie-parser": "^1.4.5",
     "express": "^4.17.1",
-    "mongoose": "^6.0.6"
+    "express-winston": "^4.2.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.0.6",
+    "validator": "^13.6.0",
+    "winston": "^3.3.3"
   }
 }
