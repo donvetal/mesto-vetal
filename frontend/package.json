@@ -12,12 +12,13 @@
     "react-scripts": "^4.0.3",
     "web-vitals": "^2.1.0"
   },
+
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "deploy": "npm run build && scp -r ./build/* vitaliymontana@130.193.43.158:/home/vitaliymontana/mesto-frontend"
+    "deploy": "ssh vitaliymontana@130.193.43.158 \"cd ~/mesto-vetal/frontend && npm install && npm run build && npm run start\""
   },
   "eslintConfig": {
     "extends": [
