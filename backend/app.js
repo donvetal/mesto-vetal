@@ -18,7 +18,23 @@ app.use(bodyParser.urlencoded({ extended: true })); // для приёма ве�
 
 mongoose.connect('mongodb://localhost:27017/mestodb');
 app.post(requestLogger); // подключаем логгер запросов
+app.use((req, res, next) => {
+  // проверяем, что источник запроса есть среди разрешённых
+  const { method } = req; // Сохраняем тип запроса (HTTP-метод) в соответствующую переменную
+  const DEFAULT_ALLOWED_METHODS = 'GET, HEAD, PUT, PATCH, POST, DELETE';
+  const requestHeaders = req.headers['access-control-request-headers'];
+  // устанавливаем заголовок, который разрешает браузеру запросы с этого источника
+  res.header('Access-Control-Allow-Origin', '*');
 
+  if (method === 'OPTIONS') {
+    // разрешаем кросс-доменные запросы любых типов (по умолчанию)
+    res.header('Access-Control-Allow-Methods', DEFAULT_ALLOWED_METHODS);
+    // разрешаем кросс-доменные запросы с этими заголовками
+    res.header('Access-Control-Allow-Headers', requestHeaders);
+  }
+
+  next();
+});
 app.post('/signin', celebrate({
   body: Joi.object().keys({
     email: Joi.string().required().email(),
@@ -44,8 +60,7 @@ app.use((req, res) => {
 });
 app.use(errorLogger); // подключаем логгер ошибок
 app.use(errors()); // обработчик ошибок celebrate
-app.use((err,
-  req, res, next) => {
+app.use((err, req, res, next) => {
   // если у ошибки нет статуса, выставляем 500
   const { statusCode = 500, message } = err;
   // проверяем статус и выставляем сообщение в зависимости от него

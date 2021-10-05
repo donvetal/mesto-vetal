@@ -46,11 +46,12 @@ export class Api {
 }
 
 const api = new Api({
-    url: 'https://mesto.nomoreparties.co/v1/',
-    headers: {
-        authorization: '6c5c2ad0-ab62-45ad-b6d9-d0d31ad5dd6b',
-        'Content-type': 'application/json'
-    }
+    // url: 'https://mesto.nomoreparties.co/v1/',
+    // headers: {
+    //     authorization: '6c5c2ad0-ab62-45ad-b6d9-d0d31ad5dd6b',
+    //     'Content-type': 'application/json'
+    // }
+    url: 'https://api.vitaliymont.students.nomoredomains.club'
 });
 export default api;
 
