@@ -35,7 +35,8 @@ export class Api {
                 body: JSON.stringify(body)
             };
         }
-        return fetch(this.url + 'cohort-25' + path, options)
+        // return fetch(this.url + 'cohort-25' + path, options)
+        return fetch(this.url + path, options)
             .then(res => {
                 if (res.ok) {
                     return res.json();

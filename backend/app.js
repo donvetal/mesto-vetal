@@ -12,12 +12,6 @@ const NotFoundError = require('./errors/not-found-err');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const app = express();
-app.use(cookieParser());
-app.use(bodyParser.json()); // для собирания JSON-формата
-app.use(bodyParser.urlencoded({ extended: true })); // для приёма веб-страниц внутри POST-запроса
-
-mongoose.connect('mongodb://localhost:27017/mestodb');
-app.post(requestLogger); // подключаем логгер запросов
 app.use((req, res, next) => {
   // проверяем, что источник запроса есть среди разрешённых
   const { method } = req; // Сохраняем тип запроса (HTTP-метод) в соответствующую переменную
@@ -35,6 +29,13 @@ app.use((req, res, next) => {
 
   next();
 });
+app.use(cookieParser());
+app.use(bodyParser.json()); // для собирания JSON-формата
+app.use(bodyParser.urlencoded({ extended: true })); // для приёма веб-страниц внутри POST-запроса
+
+mongoose.connect('mongodb://localhost:27017/mestodb');
+app.use(requestLogger); // подключаем логгер запросов
+
 app.post('/signin', celebrate({
   body: Joi.object().keys({
     email: Joi.string().required().email(),
