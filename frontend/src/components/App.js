@@ -17,7 +17,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import fail from '../images/info-tooltip-fail.svg';
 import successImg from '../images/info-tooltip-success.svg';
 import * as auth from '../utils/auth.js';
-import {Cookies} from 'react-cookie'
+// import {Cookies} from 'react-cookie'
 
 
 function App(props) {
@@ -42,7 +42,7 @@ function App(props) {
                 if (data && data.hasOwnProperty('token')) {
                     // const cookies = new Cookies();
                     // cookies.set('token', data.token);
-                    // localStorage.setItem('token', data.token);
+                    localStorage.setItem('token', data.token);
                     setEmail({email: email});
                     setLoggedIn(true);
                     props.history.push("/");
@@ -58,11 +58,11 @@ function App(props) {
 
 
     useEffect(() => {
-        const cookies = new Cookies();
-        // if (localStorage.getItem('token')) {
-        //     const jwt = localStorage.getItem('token');
-        if (cookies.get('jwt')) {
-            const jwt = cookies.get('jwt');
+        // const cookies = new Cookies();
+        if (localStorage.getItem('token')) {
+            const jwt = localStorage.getItem('token');
+        // if (cookies.get('jwt')) {
+        //     const jwt = cookies.get('jwt');
             // проверяем токен пользователя
             auth.checkToken(jwt)
                 .then((res) => {
