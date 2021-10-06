@@ -14,11 +14,18 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 const app = express();
 
 const enableCORS = function (req, res, next) {
+  // const { method } = req.method;
+  const DEFAULT_ALLOWED_METHODS = 'GET, HEAD, PUT, PATCH, POST, DELETE';
+  const requestHeaders = req.headers['access-control-request-headers'];
   res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Methods', 'GET,PATCH, PUT,POST,DELETE,OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'Content-Type, token, Content-Length, X-Requested-With, *');
-  if ('OPTIONS' === req.method) {
+  // res.header('Access-Control-Allow-Methods', 'GET, PATCH, PUT, POST, DELETE, OPTIONS');
+  // res.header('Access-Control-Allow-Headers', 'Content-Type, token, Content-Length, X-Requested-With, *');
+  // res.header('Access-Control-Allow-Credentials', true);
+  if (req.method === 'OPTIONS') {
     res.sendStatus(200);
+    res.header('Access-Control-Allow-Methods', DEFAULT_ALLOWED_METHODS);
+    res.header('Access-Control-Allow-Headers', requestHeaders);
+    res.header('Access-Control-Allow-Credentials', true);
   } else {
     next();
   }
