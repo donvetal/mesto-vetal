@@ -40,8 +40,8 @@ function App(props) {
         auth.authorize(password, email)
             .then((data) => {
                 if (data && data.hasOwnProperty('token')) {
-                    const cookies = new Cookies();
-                    cookies.set('token', data.token);
+                    // const cookies = new Cookies();
+                    // cookies.set('token', data.token);
                     // localStorage.setItem('token', data.token);
                     setEmail({email: email});
                     setLoggedIn(true);
