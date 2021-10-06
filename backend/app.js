@@ -12,14 +12,27 @@ const NotFoundError = require('./errors/not-found-err');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const app = express();
-app.use(function (req, res, next) {
-  const requestHeaders = req.headers['access-control-request-headers'];
-  res.header('Access-Control-Allow-Origin', '*'); // update to match the domain you will make the request from
-  res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-  res.header('Access-Control-Allow-Headers', requestHeaders);
-  res.header('Access-Control-Allow-Credentials', true);
-  next();
-});
+
+const enableCORS = function (req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET,PATCH, PUT,POST,DELETE,OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, token, Content-Length, X-Requested-With, *');
+  if ('OPTIONS' === req.method) {
+    res.sendStatus(200);
+  } else {
+    next();
+  }
+};
+
+app.use(enableCORS);
+// app.use(function (req, res, next) {
+//   const requestHeaders = req.headers['access-control-request-headers'];
+//   res.header('Access-Control-Allow-Origin', '*');
+//   res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+//   res.header('Access-Control-Allow-Headers', requestHeaders);
+//   res.header('Access-Control-Allow-Credentials', true);
+//   next();
+// });
 // app.use((req, res, next) => {
 //   // проверяем, что источник запроса есть среди разрешённых
 //   const { method } = req.method;
