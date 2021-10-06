@@ -1,5 +1,5 @@
 // export const BASE_URL = 'https://auth.nomoreparties.co';
-export const BASE_URL = 'http://api.vitaliymont.students.nomoredomains.club';
+export const BASE_URL = 'https://api.vitaliymont.students.nomoredomains.club';
 
 
 export const register = (password, email) => {

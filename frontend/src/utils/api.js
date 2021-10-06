@@ -52,7 +52,11 @@ const api = new Api({
     //     authorization: '6c5c2ad0-ab62-45ad-b6d9-d0d31ad5dd6b',
     //     'Content-type': 'application/json'
     // }
-    url: 'http://api.vitaliymont.students.nomoredomains.club'
+    url: 'https://api.vitaliymont.students.nomoredomains.club',
+    headers: {
+        'Content-type': 'application/json'
+    }
+
 });
 export default api;
 
