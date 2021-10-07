@@ -141,3 +141,6 @@ module.exports.updateAvatar = (req, res, next) => {
     })
     .catch(next);
 };
+module.exports.logout = (req, res) => {
+  res.clearCookie('jwt').send({ message: 'Вы вышли!' });
+};

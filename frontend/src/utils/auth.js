@@ -8,7 +8,6 @@ export const register = (password, email) => {
         credentials: "include",
         headers: {
             'Content-Type': 'application/json',
-            'Accept': 'application/json'
         },
         body: JSON.stringify({password, email})
     })
@@ -27,31 +26,66 @@ export const authorize = (password, email) => {
         credentials: "include",
         headers: {
             'Content-Type': 'application/json',
-            'Accept': 'application/json'
         },
         body: JSON.stringify({password, email})
     })
-        .then(res => res.json())
-        .then((data) => {
-
-            if (data.token) {
-                return data;
+        .then(res => {
+            if (res.ok) {
+                return res.json();
             }
+            return Promise.reject(`Ошибка: ${res.status}`);
         });
+    // .then(res => res.json())
+    // .then((data) => {
+    //
+    //     if (data.token) {
+    //         return data;
+    //     }
+    // });
 
 };
 
+export const logout = () => {
+    return fetch(`${BASE_URL}/logout`, {
+        method: 'GET',
+        credentials: 'include',
+    })
+        .then(res => {
+            if (res.ok) {
+                return res.json();
+            }
+            return Promise.reject(`Ошибка: ${res.status}`);
+        });
+};
 
-export const checkToken = (token) => {
+export const checkToken = () => {
     return fetch(`${BASE_URL}/users/me`, {
         method: 'GET',
         credentials: "include",
         headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`
+            // "Authorization": `Bearer ${token}`
 
         }
     })
-        .then(res => res.json())
-        .then(data => data);
+        .then(res => {
+            if (res.ok) {
+                return res.json();
+            }
+            return Promise.reject(`Ошибка: ${res.status}`);
+        });
 };
+
+// export const checkToken = () => {
+//     return fetch(`${BASE_URL}/users/me`, {
+//         method: 'GET',
+//         credentials: "include",
+//         headers: {
+//             "Content-Type": "application/json",
+//             // "Authorization": `Bearer ${token}`
+//
+//         }
+//     })
+//         .then(res => res.json())
+//         .then(data => data);
+// };

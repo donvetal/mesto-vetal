@@ -53,8 +53,9 @@ const api = new Api({
     //     'Content-type': 'application/json'
     // }
     url: 'https://api.vitaliymont.students.nomoredomains.club',
+    credentials: 'include',
     headers: {
-        'Content-type': 'application/json'
+        'Content-type': 'application/json',
     }
 
 });

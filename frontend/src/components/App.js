@@ -17,6 +17,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import fail from '../images/info-tooltip-fail.svg';
 import successImg from '../images/info-tooltip-success.svg';
 import * as auth from '../utils/auth.js';
+
 // import {Cookies} from 'react-cookie'
 
 
@@ -31,18 +32,23 @@ function App(props) {
     const [isInfoTooltipOpen, setIsInfoTooltipOpen] = React.useState(false);
     const [email, setEmail] = React.useState({});
 
+    // Выход из системы
     const onSignOut = () => {
-        localStorage.removeItem('token');
-        setRegistered(false);
+        auth.logout()
+            .then((res) => {
+                if (res) {
+                    setLoggedIn(false);
+                }
+            })
+            .catch((err) => console.log(`Error: ${err}`));
     };
 
     const onLogin = (password, email) => {
         auth.authorize(password, email)
             .then((data) => {
-                if (data && data.hasOwnProperty('token')) {
+                if (data) {
                     // const cookies = new Cookies();
                     // cookies.set('token', data.token);
-                    localStorage.setItem('token', data.token);
                     setEmail({email: email});
                     setLoggedIn(true);
                     props.history.push("/");
@@ -56,15 +62,10 @@ function App(props) {
             });
     };
 
-
     useEffect(() => {
         // const cookies = new Cookies();
-        if (localStorage.getItem('token')) {
-            const jwt = localStorage.getItem('token');
-        // if (cookies.get('jwt')) {
-        //     const jwt = cookies.get('jwt');
-            // проверяем токен пользователя
-            auth.checkToken(jwt)
+        if (loggedIn) {
+            auth.checkToken()
                 .then((res) => {
                     if (res) {
                         setEmail({email: res.data.email});
@@ -81,9 +82,53 @@ function App(props) {
                 });
 
         }
-    }, [props.history]);
+    }, [props.history, loggedIn]);
+    // const onLogin = (password, email) => {
+    //     auth.authorize(password, email)
+    //         .then((data) => {
+    //             if (data && data.hasOwnProperty('token')) {
+    //                 // const cookies = new Cookies();
+    //                 // cookies.set('token', data.token);
+    //                 localStorage.setItem('token', data.token);
+    //                 setEmail({email: email});
+    //                 setLoggedIn(true);
+    //                 props.history.push("/");
+    //             } else {
+    //                 setIsInfoTooltipOpen(true);
+    //             }
+    //         })
+    //         .catch(err => {
+    //             setIsInfoTooltipOpen(true);
+    //             console.log(err);
+    //         });
+    // };
 
 
+    // useEffect(() => {
+    //     // const cookies = new Cookies();
+    //     if (localStorage.getItem('token')) {
+    //         const jwt = localStorage.getItem('token');
+    //         // if (cookies.get('jwt')) {
+    //         //     const jwt = cookies.get('jwt');
+    //         // проверяем токен пользователя
+    //         auth.checkToken(jwt)
+    //             .then((res) => {
+    //                 if (res) {
+    //                     setEmail({email: res.data.email});
+    //                     setLoggedIn(true);
+    //                 }
+    //
+    //             })
+    //             .then(() => {
+    //                 props.history.push("/");
+    //
+    //             })
+    //             .catch(error => {
+    //                 console.log(error);
+    //             });
+    //
+    //     }
+    // }, [props.history]);
 
 
     const handleEditProfileClick = () => {
@@ -125,6 +170,7 @@ function App(props) {
     const [isImagePopupOpen, setIsImagePopupOpen] = React.useState(false);
 
     useEffect(() => {
+        if(loggedIn){
         api.getCardList()
             .then(data => {
                 setCards(data);
@@ -132,11 +178,12 @@ function App(props) {
             .catch(error => {
                 console.log(error);
             });
-    }, []);
+    }}, [loggedIn]);
 
     const [currentUser, setCurrentUser] = React.useState({});
 
     useEffect(() => {
+        if(loggedIn){
         api.getUserInfo()
             .then(data => {
                 setCurrentUser(data);
@@ -144,7 +191,7 @@ function App(props) {
             .catch(error => {
                 console.log(error);
             });
-    }, []);
+    }}, [loggedIn]);
 
     const handleRegister = (password, email) => {
 
