@@ -31,7 +31,7 @@ function Main({onEditAvatar, onEditProfile, onAddPlace, cards, handleCardClick, 
             <section className="elements page__container">
                 <ul className="elements-cards">
                     {
-                        cards.map((card, i) =>
+                        cards.map((card) =>
                             <Card
                                 key={card._id}
                                 onCardClick={handleCardClick}
