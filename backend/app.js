@@ -8,6 +8,7 @@ const cors = require('cors');
 const { celebrate, Joi, errors } = require('celebrate');
 const cookieParser = require('cookie-parser');
 const { login } = require('./controllers/user');
+const { successfulAuth } = require('./controllers/user');
 const { logout } = require('./controllers/user');
 const { createUser } = require('./controllers/user');
 const auth = require('./middlewares/auth');
@@ -41,29 +42,6 @@ const corsOptions = {
 const app = express();
 app.use(helmet());
 app.use(cors(corsOptions));
-// const enableCORS = function (req, res, next) {
-//   res.header('Access-Control-Allow-Origin', req.headers.origin);
-//   res.header('Access-Control-Allow-Methods', 'GET, PATCH, PUT, POST, DELETE, OPTIONS');
-//   res.header('Access-Control-Allow-Headers', 'Content-Type, token, Origin, Content-Length,
-//   Accept,Authorization, X-Requested-With, *');
-//   res.header('Access-Control-Allow-Credentials', true);
-//   if (req.method === 'OPTIONS') {
-//     res.sendStatus(200);
-//   } else {
-//     next();
-//   }
-// };
-//
-// app.use(enableCORS);
-// app.use(function (req, res, next) {
-//   const requestHeaders = req.headers['access-control-request-headers'];
-//   res.header('Access-Control-Allow-Origin', '*');
-//   res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-//   res.header('Access-Control-Allow-Headers', requestHeaders);
-//   res.header('Access-Control-Allow-Credentials', true);
-//   next();
-// });
-
 app.use(cookieParser());
 app.use(bodyParser.json()); // для собирания JSON-формата
 app.use(bodyParser.urlencoded({ extended: true })); // для приёма веб-страниц внутри POST-запроса
@@ -98,6 +76,7 @@ app.use(auth);
 app.use('/cards', require('./routes/cards'));
 app.use('/users', require('./routes/users'));
 
+app.get('/check-auth', successfulAuth);
 app.get('/logout', logout);
 
 app.use((req, res) => {

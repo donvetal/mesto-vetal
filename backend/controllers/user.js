@@ -144,3 +144,6 @@ module.exports.updateAvatar = (req, res, next) => {
 module.exports.logout = (req, res) => {
   res.clearCookie('jwt').send({ message: 'Вы вышли!' });
 };
+module.exports.successfulAuth = (req, res) => {
+  res.send({ message: 'Вы авторизованы!' });
+};

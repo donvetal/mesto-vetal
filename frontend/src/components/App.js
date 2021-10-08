@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useCallback} from "react";
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
@@ -28,7 +28,7 @@ function App(props) {
     const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
     const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
     const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
-
+    // const [isAuthChecking, setIsAuthChecking] = React.useState(true);
     const [isInfoTooltipOpen, setIsInfoTooltipOpen] = React.useState(false);
     const [email, setEmail] = React.useState({});
 
@@ -60,13 +60,34 @@ function App(props) {
             .catch((err) => console.log(err));
     };
 
+    // Успешное прохождение авторизации
+    const successfulAuth = useCallback(() => {
+        api.getUserInfo()
+            .then(data => {
+                setCurrentUser(data);
+            })
+            .catch(error => {
+                console.log(error);
+            })
+
+        api.getCardList()
+            .then(data => {
+                setCards(data);
+            })
+            .catch(error => {
+                console.log(error);
+            })
+
+        setLoggedIn(true);
+        props.history.push('/');
+    }, [props.history]);
+
     const onLogin = (password, email) => {
         auth.authorize(password, email)
             .then((data) => {
                 if (data) {
                     setEmail({email: email});
-                    setLoggedIn(true);
-                    props.history.push("/");
+                    successfulAuth();
                 } else {
                     setIsInfoTooltipOpen(true);
                 }
@@ -77,31 +98,54 @@ function App(props) {
             });
     };
 
-    const [currentUser, setCurrentUser] = React.useState({});
 
+
+    // Проверка авторизации пользователя
     useEffect(() => {
-        if (!loggedIn) return;
-            api.getUserInfo()
-                .then(data => {
-                    setCurrentUser(data);
-                })
-                .catch(error => {
-                    console.log(error);
-                });
-        }, [loggedIn]);
+        // setIsAuthChecking(true)
 
+        auth.checkAuth()
+            .then(res => {
+                if (res) {
+                    successfulAuth();
+                }
+            })
+            .catch(() => {
+                // setIsAuthChecking(false)
+                props.history.push('/')
+            })
+            // .finally(() => {
+            //     setIsAuthChecking(false)
+            // });
+
+    }, [props.history, successfulAuth]);
+
+    const [currentUser, setCurrentUser] = React.useState({});
     const [cards, setCards] = React.useState([]);
 
-    useEffect(() => {
-        if (!loggedIn) return;
-            api.getCardList()
-                .then(data => {
-                    setCards(data);
-                })
-                .catch(error => {
-                    console.log(error);
-                });
-        }, [loggedIn]);
+    // useEffect(() => {
+    //     if (!loggedIn) return;
+    //     api.getCardList()
+    //         .then(data => {
+    //             setCards(data);
+    //         })
+    //         .catch(error => {
+    //             console.log(error);
+    //         });
+    // }, [loggedIn]);
+    //
+    // useEffect(() => {
+    //     if (!loggedIn) return;
+    //     api.getUserInfo()
+    //         .then(data => {
+    //             setCurrentUser(data);
+    //         })
+    //         .catch(error => {
+    //             console.log(error);
+    //         });
+    // }, [loggedIn]);
+
+
 
     // useEffect(() => {
     //     if (loggedIn) {

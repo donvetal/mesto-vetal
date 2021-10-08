@@ -58,15 +58,10 @@ export const logout = () => {
         });
 };
 
-export const checkToken = () => {
-    return fetch(`${BASE_URL}/users/me`, {
+export const checkAuth = () => {
+    return fetch(`${BASE_URL}/check-auth`, {
         method: 'GET',
         credentials: "include",
-        headers: {
-            "Content-Type": "application/json",
-            // "Authorization": `Bearer ${token}`
-
-        }
     })
         .then(res => {
             if (res.ok) {
