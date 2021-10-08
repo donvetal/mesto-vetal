@@ -32,6 +32,9 @@ function App(props) {
     const [isInfoTooltipOpen, setIsInfoTooltipOpen] = React.useState(false);
     const [email, setEmail] = React.useState({});
 
+    const [currentUser, setCurrentUser] = React.useState({});
+    const [cards, setCards] = React.useState(null);
+
     // Выход из системы
     const onSignOut = () => {
         auth.logout()
@@ -120,8 +123,7 @@ function App(props) {
 
     }, [props.history, successfulAuth]);
 
-    const [currentUser, setCurrentUser] = React.useState({});
-    const [cards, setCards] = React.useState([]);
+
 
     // useEffect(() => {
     //     if (!loggedIn) return;
