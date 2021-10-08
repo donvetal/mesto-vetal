@@ -33,7 +33,7 @@ function App(props) {
     const [email, setEmail] = React.useState({});
 
     const [currentUser, setCurrentUser] = React.useState({});
-    const [cards, setCards] = React.useState(null);
+    const [cards, setCards] = React.useState([]);
 
     // Выход из системы
     const onSignOut = () => {
@@ -75,6 +75,7 @@ function App(props) {
 
         api.getCardList()
             .then(data => {
+                if(!data) return;
                 setCards(data);
             })
             .catch(error => {
