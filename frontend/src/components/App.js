@@ -28,7 +28,7 @@ function App(props) {
     const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
     const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
     const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
-    // const [isAuthChecking, setIsAuthChecking] = React.useState(true);
+    const [isAuthChecking, setIsAuthChecking] = React.useState(true);
     const [isInfoTooltipOpen, setIsInfoTooltipOpen] = React.useState(false);
     const [email, setEmail] = React.useState({});
 
@@ -56,7 +56,7 @@ function App(props) {
                     setRegistered(false);
                 } else {
                     setRegistered(true);
-                    // setEmail({email: res.data.email});
+                    setEmail({email: res.data.email});
                 }
                 setIsInfoTooltipOpen(true);
             })
@@ -80,6 +80,7 @@ function App(props) {
     const successfulAuth = useCallback(() => {
         api.getUserInfo()
             .then(data => {
+                if (!data) throw new Error(`Error: ${data.message}`);
                 setCurrentUser(data);
             })
             .catch(error => {
@@ -88,6 +89,7 @@ function App(props) {
 
         api.getCardList()
             .then((data) => {
+                if (!data) throw new Error(`Error: ${data.message}`);
                 if(Array.isArray(data))  {
                     setCards(data);
                 }
@@ -102,8 +104,9 @@ function App(props) {
 
     const onLogin = (password, email) => {
         auth.authorize(password, email)
-            .then((data) => {
-                if (data) {
+            .then((res) => {
+                if (!res || res.statusCode === 400 || res.statusCode === 401) throw new Error(`Ошибка: ${res.message}`)
+                if (res.massege === 'Авторизация прошла успешно!' ) {
                     setEmail({email: email});
                     successfulAuth();
                 } else {
@@ -120,24 +123,22 @@ function App(props) {
 
     // Проверка авторизации пользователя
     useEffect(() => {
-        // setIsAuthChecking(true)
+        setIsAuthChecking(true)
 
         auth.checkAuth()
             .then(res => {
                 if (res) {
                     successfulAuth();
-                    setEmail({email: res.data.email});
+                    // setEmail({email: res.data.email});
                 }
             })
-            .then(() => {
-                props.history.push('/')
+            .catch(() => {
+                setIsAuthChecking(false)
+                props.history.push('/sigin')
             })
-            .catch(error => {
-                console.log(error);
+            .finally(() => {
+                setIsAuthChecking(false)
             });
-            // .finally(() => {
-            //     setIsAuthChecking(false)
-            // });
 
     }, [props.history, successfulAuth]);
 
@@ -368,6 +369,7 @@ function App(props) {
 
 
                             <ProtectedRoute exact path="/"
+                                            isChecking={isAuthChecking}
                                             loggedIn={loggedIn}
                                             component={Main}
                                             onEditProfile={handleEditProfileClick}
