@@ -43,17 +43,6 @@ function App(props) {
             .catch((err) => console.log(`Error: ${err}`));
     };
 
-    const handleLogin = () => {
-        setLoggedIn(true);
-        props.history.push("/");
-    };
-    useEffect(() => {
-            api.getUserInfo()
-                .then(handleLogin)
-                .catch(error => {
-                    console.log(error);
-                });
-        }, []);
 
     const handleRegister = (password, email) => {
 
@@ -72,8 +61,8 @@ function App(props) {
 
     const onLogin = (password, email) => {
         auth.authorize(password, email)
-            .then((data) => {
-                if (data) {
+            .then((res) => {
+                if (res.message === 'Авторизация успешна!') {
                     setEmail({email: email});
                     setLoggedIn(true);
                     props.history.push("/");
