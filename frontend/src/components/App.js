@@ -63,6 +63,7 @@ function App(props) {
                     setRegistered(false);
                 } else {
                     setRegistered(true);
+                    setEmail({email: res.data.email});
                 }
                 setIsInfoTooltipOpen(true);
             })
@@ -283,7 +284,7 @@ function App(props) {
             <CurrentUserContext.Provider value={currentUser}>
                 <div className="page">
                     {/*<Header onSignOut={onSignOut} userData={email}/>*/}
-                    <Header onSignOut={onSignOut} userData={currentUser.email}/>
+                    <Header onSignOut={onSignOut} userData={email}/>
                     <Switch>
                         <Route path="/signin">
 
