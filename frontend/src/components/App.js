@@ -33,7 +33,7 @@ function App(props) {
     const [email, setEmail] = React.useState({});
 
     const [currentUser, setCurrentUser] = React.useState({});
-    const [cards, setCards] = React.useState([]);
+    const [cards, setCards] = React.useState(null);
 
     // Выход из системы
     const onSignOut = () => {
@@ -62,42 +62,42 @@ function App(props) {
             })
             .catch((err) => console.log(err));
     };
-
-    const successfulAuth = useCallback(() => {
-        Promise.all([api.getUserInfo(), api.getCardList()])
-            .then(([cards, currentUser]) => {
-                setCards(cards.data);
-                setCurrentUser(currentUser.data);
-            })
-            .catch((err) => console.log(err))
-
-
-        setLoggedIn(true);
-        props.history.push('/');
-    }, [props.history]);
-
-    // Успешное прохождение авторизации
-    // const successfulAuth = useCallback(() => {
-    //     api.getUserInfo()
-    //         .then(data => {
-    //             setCurrentUser(data);
-    //         })
-    //         .catch(error => {
-    //             console.log(error);
-    //         })
     //
-    //     api.getCardList()
-    //         .then(data => {
-    //             if(!data) return;
-    //             setCards(data);
+    // const successfulAuth = useCallback(() => {
+    //     Promise.all([api.getUserInfo(), api.getCardList()])
+    //         .then(([cards, currentUser]) => {
+    //             setCards(cards.data);
+    //             setCurrentUser(currentUser.data);
     //         })
-    //         .catch(error => {
-    //             console.log(error);
-    //         })
+    //         .catch((err) => console.log(err))
+    //
     //
     //     setLoggedIn(true);
     //     props.history.push('/');
     // }, [props.history]);
+
+    Успешное прохождение авторизации
+    const successfulAuth = useCallback(() => {
+        api.getUserInfo()
+            .then(data => {
+                setCurrentUser(data);
+            })
+            .catch(error => {
+                console.log(error);
+            })
+
+        api.getCardList()
+            .then(([cards]) => {
+                if(!cards) return;
+                setCards(cards.data);
+            })
+            .catch(error => {
+                console.log(error);
+            })
+
+        setLoggedIn(true);
+        props.history.push('/');
+    }, [props.history]);
 
     const onLogin = (password, email) => {
         auth.authorize(password, email)
