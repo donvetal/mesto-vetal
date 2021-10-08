@@ -76,7 +76,7 @@ function App(props) {
     //     props.history.push('/');
     // }, [props.history]);
 
-    Успешное прохождение авторизации
+    // Успешное прохождение авторизации
     const successfulAuth = useCallback(() => {
         api.getUserInfo()
             .then(data => {
