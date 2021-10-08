@@ -14,18 +14,19 @@ const auth = require('./middlewares/auth');
 const NotFoundError = require('./errors/not-found-err');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
-const corsOptions = {
-  origin: [
-    'http://vitaliymontana.students.nomoredomains.club',
-    'https://vitaliymontana.students.nomoredomains.club',
-    'https://localhost:3000',
-    'http://localhost:3000',
-  ],
-  credentials: true,
-};
+// const corsOptions = {
+//   origin: [
+//     'http://vitaliymontana.students.nomoredomains.club',
+//     'https://vitaliymontana.students.nomoredomains.club',
+//     'https://localhost:3000',
+//     'http://localhost:3000',
+//   ],
+//   credentials: true,
+// };
 
 const app = express();
 app.use(helmet());
+app.use(cors);
 // const enableCORS = function (req, res, next) {
 //   res.header('Access-Control-Allow-Origin', req.headers.origin);
 //   res.header('Access-Control-Allow-Methods', 'GET, PATCH, PUT, POST, DELETE, OPTIONS');
@@ -48,27 +49,11 @@ app.use(helmet());
 //   res.header('Access-Control-Allow-Credentials', true);
 //   next();
 // });
-// app.use((req, res, next) => {
-//   // проверяем, что источник запроса есть среди разрешённых
-//   const { method } = req.method;
-//   const DEFAULT_ALLOWED_METHODS = 'GET, HEAD, PUT, PATCH, POST, DELETE';
-//   const requestHeaders = req.headers['access-control-request-headers'];
-//   // устанавливаем заголовок, который разрешает браузеру запросы с этого источника
-//   res.header('Access-Control-Allow-Origin', '*');
-//
-//   if (method === 'OPTIONS') {
-//     // разрешаем кросс-доменные запросы любых типов (по умолчанию)
-//     res.header('Access-Control-Allow-Methods', DEFAULT_ALLOWED_METHODS);
-//     // разрешаем кросс-доменные запросы с этими заголовками
-//     res.header('Access-Control-Allow-Headers', requestHeaders);
-//   }
-//
-//   next();
-// });
+
 app.use(cookieParser());
 app.use(bodyParser.json()); // для собирания JSON-формата
 app.use(bodyParser.urlencoded({ extended: true })); // для приёма веб-страниц внутри POST-запроса
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
 mongoose.connect('mongodb://localhost:27017/mestodb');
 app.use(requestLogger); // подключаем логгер запросов
 

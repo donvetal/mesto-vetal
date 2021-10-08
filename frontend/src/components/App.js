@@ -44,6 +44,7 @@ function App(props) {
     };
 
 
+
     const handleRegister = (password, email) => {
 
         auth.register(password, email)
@@ -61,8 +62,8 @@ function App(props) {
 
     const onLogin = (password, email) => {
         auth.authorize(password, email)
-            .then((res) => {
-                if (res.message === 'Авторизация успешна!') {
+            .then((data) => {
+                if (data) {
                     setEmail({email: email});
                     setLoggedIn(true);
                     props.history.push("/");
@@ -79,7 +80,7 @@ function App(props) {
     const [currentUser, setCurrentUser] = React.useState({});
 
     useEffect(() => {
-        if(loggedIn){
+        if (!loggedIn) return;
             api.getUserInfo()
                 .then(data => {
                     setCurrentUser(data);
@@ -87,12 +88,12 @@ function App(props) {
                 .catch(error => {
                     console.log(error);
                 });
-        }}, [loggedIn]);
+        }, [loggedIn]);
 
     const [cards, setCards] = React.useState([]);
 
     useEffect(() => {
-        if(loggedIn){
+        if (!loggedIn) return;
             api.getCardList()
                 .then(data => {
                     setCards(data);
@@ -100,7 +101,7 @@ function App(props) {
                 .catch(error => {
                     console.log(error);
                 });
-        }}, [loggedIn]);
+        }, [loggedIn]);
 
     // useEffect(() => {
     //     if (loggedIn) {
@@ -272,7 +273,6 @@ function App(props) {
         <div className="App">
             <CurrentUserContext.Provider value={currentUser}>
                 <div className="page">
-                    {/*<Header onSignOut={onSignOut} userData={email}/>*/}
                     <Header onSignOut={onSignOut} userData={email}/>
                     <Switch>
                         <Route path="/signin">
