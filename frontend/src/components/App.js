@@ -56,7 +56,7 @@ function App(props) {
                     setRegistered(false);
                 } else {
                     setRegistered(true);
-                    setEmail({email: res.data.email});
+                    // setEmail({email: res.data.email});
                 }
                 setIsInfoTooltipOpen(true);
             })
@@ -126,6 +126,7 @@ function App(props) {
             .then(res => {
                 if (res) {
                     successfulAuth();
+                    setEmail({email: res.data.email});
                 }
             })
             .catch(() => {
