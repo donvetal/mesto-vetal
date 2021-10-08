@@ -1,4 +1,4 @@
-import React, {useEffect, useCallback} from "react";
+import React, {useCallback, useEffect} from "react";
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
@@ -129,10 +129,12 @@ function App(props) {
                     setEmail({email: res.data.email});
                 }
             })
-            .catch(() => {
-                // setIsAuthChecking(false)
+            .then(() => {
                 props.history.push('/')
             })
+            .catch(error => {
+                console.log(error);
+            });
             // .finally(() => {
             //     setIsAuthChecking(false)
             // });
