@@ -28,7 +28,7 @@ function App(props) {
     const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
     const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
     const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
-    const [isAuthChecking, setIsAuthChecking] = React.useState(true);
+    // const [isAuthChecking, setIsAuthChecking] = React.useState(true);
     const [isInfoTooltipOpen, setIsInfoTooltipOpen] = React.useState(false);
     const [email, setEmail] = React.useState({});
 
@@ -45,6 +45,7 @@ function App(props) {
             })
             .catch((err) => console.log(`Error: ${err}`));
     };
+
 
 
     const handleRegister = (password, email) => {
@@ -84,18 +85,18 @@ function App(props) {
             })
             .catch(error => {
                 console.log(error);
-            });
+            })
 
         api.getCardList()
             .then((data) => {
                 if (!data) throw new Error(`Error: ${data.message}`);
-                if (Array.isArray(data)) {
+                if(Array.isArray(data))  {
                     setCards(data);
                 }
             })
             .catch(error => {
                 console.log(error);
-            });
+            })
 
         setLoggedIn(true);
         props.history.push('/');
@@ -104,8 +105,8 @@ function App(props) {
     const onLogin = (password, email) => {
         auth.authorize(password, email)
             .then((res) => {
-                if (!res || res.statusCode === 400 || res.statusCode === 401) throw new Error(`Ошибка: ${res.message}`);
-                if (res.massege === 'Авторизация прошла успешно!') {
+                if (!res || res.statusCode === 400 || res.statusCode === 401) throw new Error(`Ошибка: ${res.message}`)
+                if (res.massege === 'Авторизация прошла успешно!' ) {
                     setEmail({email: email});
                     successfulAuth();
                 } else {
@@ -119,26 +120,28 @@ function App(props) {
     };
 
 
+
     // Проверка авторизации пользователя
     useEffect(() => {
-        setIsAuthChecking(true);
+        // setIsAuthChecking(true)
 
         auth.checkAuth()
             .then(res => {
                 if (res) {
                     successfulAuth();
-                    // setEmail({email: res.data.email});
+                    setEmail({email: res.data.email});
                 }
             })
             .catch(() => {
-                setIsAuthChecking(false);
-                props.history.push('/sigin');
+                // setIsAuthChecking(false)
+                props.history.push('/signin')
             })
-            .finally(() => {
-                setIsAuthChecking(false);
-            });
+            // .finally(() => {
+            //     setIsAuthChecking(false)
+            // });
 
     }, [props.history, successfulAuth]);
+
 
 
     // useEffect(() => {
@@ -162,6 +165,7 @@ function App(props) {
     //             console.log(error);
     //         });
     // }, [loggedIn]);
+
 
 
     // useEffect(() => {
@@ -268,39 +272,21 @@ function App(props) {
     };
 
 
+
     const [selectedCard, setSelectedCard] = React.useState({});
     const [isImagePopupOpen, setIsImagePopupOpen] = React.useState(false);
 
-    // const handleUpdateUser = (currentUser) => {
-    //     api.setUserInfo(currentUser.name, currentUser.about)
-    //         .then(data => {
-    //             setCurrentUser(data);
-    //             closeAllPopups();
-    //
-    //         })
-    //         .catch(error => {
-    //             console.log(error);
-    //         });
-    //
-    // };
-
-
-    // Обновление информации юзера
-    const handleUpdateUser = (data) => {
-        return api.setUserInfo(data)
-            .then(res => {
-                if (!res) throw new Error(`Error: ${data.message}`);
-                setCurrentUser({
-                    ...currentUser,
-                    name: res.name,
-                    about: res.about
-                });
+    const handleUpdateUser = (currentUser) => {
+        api.setUserInfo(currentUser.name, currentUser.about)
+            .then(data => {
+                setCurrentUser(data);
                 closeAllPopups();
-                return res;
+
             })
             .catch(error => {
                 console.log(error);
             });
+
     };
 
     const handleUpdateAvatar = (avatar) => {
@@ -383,7 +369,7 @@ function App(props) {
 
 
                             <ProtectedRoute exact path="/"
-                                            isChecking={isAuthChecking}
+                                            // isChecking={isAuthChecking}
                                             loggedIn={loggedIn}
                                             component={Main}
                                             onEditProfile={handleEditProfileClick}
