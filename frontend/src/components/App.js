@@ -63,28 +63,41 @@ function App(props) {
             .catch((err) => console.log(err));
     };
 
-    // Успешное прохождение авторизации
     const successfulAuth = useCallback(() => {
-        api.getUserInfo()
-            .then(data => {
-                setCurrentUser(data);
+        Promise.all([api.getUserInfo(), api.getCardList()])
+            .then(([cards, currentUser]) => {
+                setCards(cards.data);
+                setCurrentUser(currentUser.data);
             })
-            .catch(error => {
-                console.log(error);
-            })
+            .catch((err) => console.log(err))
 
-        api.getCardList()
-            .then(data => {
-                if(!data) return;
-                setCards(data);
-            })
-            .catch(error => {
-                console.log(error);
-            })
 
         setLoggedIn(true);
         props.history.push('/');
     }, [props.history]);
+
+    // Успешное прохождение авторизации
+    // const successfulAuth = useCallback(() => {
+    //     api.getUserInfo()
+    //         .then(data => {
+    //             setCurrentUser(data);
+    //         })
+    //         .catch(error => {
+    //             console.log(error);
+    //         })
+    //
+    //     api.getCardList()
+    //         .then(data => {
+    //             if(!data) return;
+    //             setCards(data);
+    //         })
+    //         .catch(error => {
+    //             console.log(error);
+    //         })
+    //
+    //     setLoggedIn(true);
+    //     props.history.push('/');
+    // }, [props.history]);
 
     const onLogin = (password, email) => {
         auth.authorize(password, email)
