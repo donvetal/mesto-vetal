@@ -43,12 +43,36 @@ function App(props) {
             .catch((err) => console.log(`Error: ${err}`));
     };
 
+    const handleLogin = () => {
+        setLoggedIn(true);
+        props.history.push("/");
+    };
+    useEffect(() => {
+            api.getUserInfo()
+                .then(handleLogin)
+                .catch(error => {
+                    console.log(error);
+                });
+        }, []);
+
+    const handleRegister = (password, email) => {
+
+        auth.register(password, email)
+            .then((res) => {
+                if (res.hasOwnProperty('error')) {
+                    setRegistered(false);
+                } else {
+                    setRegistered(true);
+                }
+                setIsInfoTooltipOpen(true);
+            })
+            .catch((err) => console.log(err));
+    };
+
     const onLogin = (password, email) => {
         auth.authorize(password, email)
             .then((data) => {
                 if (data) {
-                    // const cookies = new Cookies();
-                    // cookies.set('token', data.token);
                     setEmail({email: email});
                     setLoggedIn(true);
                     props.history.push("/");
@@ -62,27 +86,54 @@ function App(props) {
             });
     };
 
+    const [currentUser, setCurrentUser] = React.useState({});
+
     useEffect(() => {
-        // const cookies = new Cookies();
-        if (loggedIn) {
-            auth.checkToken()
-                .then((res) => {
-                    if (res) {
-                        setEmail({email: res.data.email});
-                        setLoggedIn(true);
-                    }
-
-                })
-                .then(() => {
-                    props.history.push("/");
-
+        if(loggedIn){
+            api.getUserInfo()
+                .then(data => {
+                    setCurrentUser(data);
                 })
                 .catch(error => {
                     console.log(error);
                 });
+        }}, [loggedIn]);
 
-        }
-    }, [props.history, loggedIn]);
+    const [cards, setCards] = React.useState([]);
+
+    useEffect(() => {
+        if(loggedIn){
+            api.getCardList()
+                .then(data => {
+                    setCards(data);
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        }}, [loggedIn]);
+
+    // useEffect(() => {
+    //     if (loggedIn) {
+    //         auth.checkToken()
+    //             .then((res) => {
+    //                 if (res) {
+    //                     setEmail({email: res.data.email});
+    //                     setLoggedIn(true);
+    //                 }
+    //
+    //             })
+    //             .then(() => {
+    //                 props.history.push("/");
+    //
+    //             })
+    //             .catch(error => {
+    //                 console.log(error);
+    //             });
+    //
+    //     }
+    // }, [props.history, loggedIn]);
+
+
     // const onLogin = (password, email) => {
     //     auth.authorize(password, email)
     //         .then((data) => {
@@ -165,47 +216,9 @@ function App(props) {
     };
 
 
-    const [cards, setCards] = React.useState([]);
+
     const [selectedCard, setSelectedCard] = React.useState({});
     const [isImagePopupOpen, setIsImagePopupOpen] = React.useState(false);
-
-    useEffect(() => {
-        if(loggedIn){
-        api.getCardList()
-            .then(data => {
-                setCards(data);
-            })
-            .catch(error => {
-                console.log(error);
-            });
-    }}, [loggedIn]);
-
-    const [currentUser, setCurrentUser] = React.useState({});
-
-    useEffect(() => {
-        if(loggedIn){
-        api.getUserInfo()
-            .then(data => {
-                setCurrentUser(data);
-            })
-            .catch(error => {
-                console.log(error);
-            });
-    }}, [loggedIn]);
-
-    const handleRegister = (password, email) => {
-
-        auth.register(password, email)
-            .then((res) => {
-                if (res.hasOwnProperty('error')) {
-                    setRegistered(false);
-                } else {
-                    setRegistered(true);
-                }
-                setIsInfoTooltipOpen(true);
-            })
-            .catch((err) => console.log(err));
-    };
 
     const handleUpdateUser = (currentUser) => {
         api.setUserInfo(currentUser.name, currentUser.about)
@@ -269,7 +282,8 @@ function App(props) {
         <div className="App">
             <CurrentUserContext.Provider value={currentUser}>
                 <div className="page">
-                    <Header onSignOut={onSignOut} userData={email}/>
+                    {/*<Header onSignOut={onSignOut} userData={email}/>*/}
+                    <Header onSignOut={onSignOut} userData={currentUser.email}/>
                     <Switch>
                         <Route path="/signin">
 
