@@ -47,7 +47,6 @@ function App(props) {
     };
 
 
-
     const handleRegister = (password, email) => {
 
         auth.register(password, email)
@@ -85,18 +84,18 @@ function App(props) {
             })
             .catch(error => {
                 console.log(error);
-            })
+            });
 
         api.getCardList()
             .then((data) => {
                 if (!data) throw new Error(`Error: ${data.message}`);
-                if(Array.isArray(data))  {
+                if (Array.isArray(data)) {
                     setCards(data);
                 }
             })
             .catch(error => {
                 console.log(error);
-            })
+            });
 
         setLoggedIn(true);
         props.history.push('/');
@@ -105,8 +104,8 @@ function App(props) {
     const onLogin = (password, email) => {
         auth.authorize(password, email)
             .then((res) => {
-                if (!res || res.statusCode === 400 || res.statusCode === 401) throw new Error(`Ошибка: ${res.message}`)
-                if (res.massege === 'Авторизация прошла успешно!' ) {
+                if (!res || res.statusCode === 400 || res.statusCode === 401) throw new Error(`Ошибка: ${res.message}`);
+                if (res.massege === 'Авторизация прошла успешно!') {
                     setEmail({email: email});
                     successfulAuth();
                 } else {
@@ -120,10 +119,9 @@ function App(props) {
     };
 
 
-
     // Проверка авторизации пользователя
     useEffect(() => {
-        setIsAuthChecking(true)
+        setIsAuthChecking(true);
 
         auth.checkAuth()
             .then(res => {
@@ -133,15 +131,14 @@ function App(props) {
                 }
             })
             .catch(() => {
-                setIsAuthChecking(false)
-                props.history.push('/sigin')
+                setIsAuthChecking(false);
+                props.history.push('/sigin');
             })
             .finally(() => {
-                setIsAuthChecking(false)
+                setIsAuthChecking(false);
             });
 
     }, [props.history, successfulAuth]);
-
 
 
     // useEffect(() => {
@@ -165,7 +162,6 @@ function App(props) {
     //             console.log(error);
     //         });
     // }, [loggedIn]);
-
 
 
     // useEffect(() => {
@@ -272,21 +268,39 @@ function App(props) {
     };
 
 
-
     const [selectedCard, setSelectedCard] = React.useState({});
     const [isImagePopupOpen, setIsImagePopupOpen] = React.useState(false);
 
-    const handleUpdateUser = (currentUser) => {
-        api.setUserInfo(currentUser.name, currentUser.about)
-            .then(data => {
-                setCurrentUser(data);
-                closeAllPopups();
+    // const handleUpdateUser = (currentUser) => {
+    //     api.setUserInfo(currentUser.name, currentUser.about)
+    //         .then(data => {
+    //             setCurrentUser(data);
+    //             closeAllPopups();
+    //
+    //         })
+    //         .catch(error => {
+    //             console.log(error);
+    //         });
+    //
+    // };
 
+
+    // Обновление информации юзера
+    const handleUpdateUser = (data) => {
+        return api.setUserInfo(data)
+            .then(res => {
+                if (!res) throw new Error(`Error: ${data.message}`);
+                setCurrentUser({
+                    ...currentUser,
+                    name: res.name,
+                    about: res.about
+                });
+                closeAllPopups();
+                return res;
             })
             .catch(error => {
                 console.log(error);
             });
-
     };
 
     const handleUpdateAvatar = (avatar) => {
