@@ -234,23 +234,22 @@ function App(props) {
     };
 
     function handleCardLike(card) {
-        console.log('>>>>>cardLike' + JSON.stringify(card));
 
         const isLiked = card.likes.some(i => i._id === currentUser._id);
-        console.log('>>>>>cardLike isLiked1' + JSON.stringify(isLiked));
-        console.log('>>>>>cardLike currentUser._id' + JSON.stringify(currentUser._id));
+        console.log('@@@@ ', card)
         // Отправляем запрос в API и получаем обновлённые данные карточки
         api.changeLikeCardStatus(card._id, !isLiked)
             .then(({data}) => {
-                console.log('>>>>>cardLike isLiked2' + JSON.stringify(isLiked));
-                console.log('>>>>>cardLike3' + JSON.stringify(data));
-                console.log('>>>>>cardLike4' + JSON.stringify(card._id));
-
+                console.log('>>>>>>> ', JSON.stringify(data))
+                console.log('!!!!!!!! ', JSON.stringify(cards))
                 setCards((state) => state.map((c) => c._id === card._id ? data : c));
+                console.log('>>>>>>> ', 'end of then')
             })
             .catch(error => {
-                console.log(error);
+                console.log('eeeeeeee ', error);
             });
+
+
     }
 
     function handleCardDelete(card) {
