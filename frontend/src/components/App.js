@@ -75,32 +75,59 @@ function App(props) {
     //     setLoggedIn(true);
     //     props.history.push('/');
     // }, [props.history]);
-
     // Успешное прохождение авторизации
     const successfulAuth = useCallback(() => {
         api.getUserInfo()
             .then(({data}) => {
                 if (!data) throw new Error(`Error: ${data.message}`);
                 setCurrentUser(data);
+                api.getCardList()
+                    .then(({data}) => {
+                        if (!data) throw new Error(`Error: ${data.message}`);
+                        if(Array.isArray(data))  {
+                            setCards(data);
+                            setLoggedIn(true);
+                            props.history.push('/');
+                        }
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    })
+
             })
             .catch(error => {
                 console.log(error);
             })
 
-        api.getCardList()
-            .then(({data}) => {
-                if (!data) throw new Error(`Error: ${data.message}`);
-                if(Array.isArray(data))  {
-                    setCards(data);
-                }
-            })
-            .catch(error => {
-                console.log(error);
-            })
 
-        setLoggedIn(true);
-        props.history.push('/');
+
     }, [props.history]);
+
+    // Успешное прохождение авторизации
+    // const successfulAuth = useCallback(() => {
+    //     api.getUserInfo()
+    //         .then(({data}) => {
+    //             if (!data) throw new Error(`Error: ${data.message}`);
+    //             setCurrentUser(data);
+    //         })
+    //         .catch(error => {
+    //             console.log(error);
+    //         })
+    //
+    //     api.getCardList()
+    //         .then(({data}) => {
+    //             if (!data) throw new Error(`Error: ${data.message}`);
+    //             if(Array.isArray(data))  {
+    //                 setCards(data);
+    //             }
+    //         })
+    //         .catch(error => {
+    //             console.log(error);
+    //         })
+    //
+    //     setLoggedIn(true);
+    //     props.history.push('/');
+    // }, [props.history]);
 
     const onLogin = (password, email) => {
         auth.authorize(password, email)
@@ -325,9 +352,9 @@ function App(props) {
 
     function handleAddPlace(e, card) {
         api.addNewCard(card)
-            .then(({card}) => {
+            .then((card) => {
                 console.log(">>>>>> " + JSON.stringify(card));
-                setCards([card, ...cards]);
+                setCards([card.data, ...cards]);
                 closeAllPopups();
             })
             .catch(error => {
