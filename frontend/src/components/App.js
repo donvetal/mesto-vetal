@@ -249,9 +249,9 @@ function App(props) {
 
     }
 
-    function handleCardDelete(card) {
-        console.log('arg card ', card)
-        api.deleteCard(card._id)
+    function handleCardDelete(cardId) {
+        console.log('arg card ', cardId)
+        api.deleteCard(cardId)
             .then(resp => {
                 // console.log("delete card1" + JSON.stringify(card.data));
                 // console.log("delete card2" + JSON.stringify(card));
@@ -259,7 +259,7 @@ function App(props) {
                 // console.log("delete card._id" + JSON.stringify(card._id));
                 // console.log("delete currentUser._id" + JSON.stringify(currentUser._id));
                 console.log('>>>> ', resp)
-                setCards((state) => state.filter((c) => c._id !== card._id));
+                setCards((state) => state.filter((c) => c._id !== cardId));
             })
             .catch(error => {
                 console.log('eeeee ', error);
