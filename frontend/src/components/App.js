@@ -133,7 +133,7 @@ function App(props) {
         auth.authorize(password, email)
             .then((res) => {
                 if (!res || res.statusCode === 400 || res.statusCode === 401) throw new Error(`Ошибка: ${res.message}`)
-                if (res.message === 'Авторизация прошла успешно!' ) {
+                if (res.massege === 'Авторизация прошла успешно!' ) {
                     setEmail({email: email});
                     successfulAuth();
                 } else {
