@@ -325,7 +325,8 @@ function App(props) {
 
     function handleAddPlace(e, card) {
         api.addNewCard(card)
-            .then(card => {
+            .then(({card}) => {
+                console.log(">>>>>> " + JSON.stringify(card));
                 setCards([card, ...cards]);
                 closeAllPopups();
             })
