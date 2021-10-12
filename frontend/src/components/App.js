@@ -28,7 +28,7 @@ function App(props) {
     const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
     const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
     const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
-    // const [isAuthChecking, setIsAuthChecking] = React.useState(true);
+    const [isAuthChecking, setIsAuthChecking] = React.useState(true);
     const [isInfoTooltipOpen, setIsInfoTooltipOpen] = React.useState(false);
     const [email, setEmail] = React.useState({});
 
@@ -79,7 +79,7 @@ function App(props) {
     // Успешное прохождение авторизации
     const successfulAuth = useCallback(() => {
         api.getUserInfo()
-            .then(data => {
+            .then(({data}) => {
                 if (!data) throw new Error(`Error: ${data.message}`);
                 setCurrentUser(data);
             })
@@ -88,7 +88,7 @@ function App(props) {
             })
 
         api.getCardList()
-            .then((data) => {
+            .then(({data}) => {
                 if (!data) throw new Error(`Error: ${data.message}`);
                 if(Array.isArray(data))  {
                     setCards(data);
@@ -123,7 +123,7 @@ function App(props) {
 
     // Проверка авторизации пользователя
     useEffect(() => {
-        // setIsAuthChecking(true)
+        setIsAuthChecking(true)
 
         auth.checkAuth()
             .then(res => {
@@ -133,12 +133,12 @@ function App(props) {
                 }
             })
             .catch(() => {
-                // setIsAuthChecking(false)
+                setIsAuthChecking(false)
                 props.history.push('/signin')
             })
-            // .finally(() => {
-            //     setIsAuthChecking(false)
-            // });
+            .finally(() => {
+                setIsAuthChecking(false)
+            });
 
     }, [props.history, successfulAuth]);
 
@@ -369,7 +369,7 @@ function App(props) {
 
 
                             <ProtectedRoute exact path="/"
-                                            // isChecking={isAuthChecking}
+                                            isChecking={isAuthChecking}
                                             loggedIn={loggedIn}
                                             component={Main}
                                             onEditProfile={handleEditProfileClick}
