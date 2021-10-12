@@ -9,12 +9,12 @@ export class Api {
 
     getUserInfo = () => this._fetch('GET','include', '/users/me');
 
-    // deleteLike = (id) => this._fetch('DELETE','include', '/cards/likes/' + id);
-    // putLike = (id) => this._fetch('PUT','include', '/cards/likes/' + id);
+    deleteLike = (id) => this._fetch('DELETE','include', '/cards/likes/' + id);
+    putLike = (id) => this._fetch('PUT','include', '/cards/likes/' + id);
 
-    deleteLike = (id) => this._fetch('DELETE','include', `/cards/${id}/likes/`);
-
-    putLike = (id) => this._fetch('PUT','include', `/cards/${id}/likes/`);
+    // deleteLike = (id) => this._fetch('DELETE','include', `/cards/${id}/likes/`);
+    //
+    // putLike = (id) => this._fetch('PUT','include', `/cards/${id}/likes/`);
 
     changeLikeCardStatus = (id, isLiked) => isLiked ? this.putLike(id) : this.deleteLike(id);
 

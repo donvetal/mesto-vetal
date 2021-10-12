@@ -344,7 +344,7 @@ function App(props) {
 
     function handleCardDelete(card) {
         api.deleteCard(card._id)
-            .then(() => {
+            .then(_ => {
                 // console.log("delete card1" + JSON.stringify(card.data));
                 // console.log("delete card2" + JSON.stringify(card));
                 // console.log("delete data3" + JSON.stringify(card.owner._id));
