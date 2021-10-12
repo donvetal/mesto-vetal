@@ -37,7 +37,6 @@ app.use(helmet());
 app.use(cookieParser());
 app.use(bodyParser.json()); // для собирания JSON-формата
 app.use(bodyParser.urlencoded({ extended: true })); // для приёма веб-страниц внутри POST-запроса
-// app.use(cors(corsOptions));
 mongoose.connect('mongodb://localhost:27017/mestodb');
 app.use(requestLogger); // подключаем логгер запросов
 
