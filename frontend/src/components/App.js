@@ -61,47 +61,49 @@ function App(props) {
             })
             .catch((err) => console.log(err));
     };
-    //
-    // const successfulAuth = useCallback(() => {
-    //     Promise.all([api.getUserInfo(), api.getCardList()])
-    //         .then(([cards, currentUser]) => {
-    //             setCards(cards.data);
-    //             setCurrentUser(currentUser.data);
-    //         })
-    //         .catch((err) => console.log(err))
-    //
-    //
-    //     setLoggedIn(true);
-    //     props.history.push('/');
-    // }, [props.history]);
-    // Успешное прохождение авторизации
+
     const successfulAuth = useCallback(() => {
-        api.getUserInfo()
-            .then(({data}) => {
-                if (!data) throw new Error(`Error: ${data.message}`);
-                setCurrentUser(data);
-                setEmail({email: data.email});
-                api.getCardList()
-                    .then(({data}) => {
-                        if (!data) throw new Error(`Error: ${data.message}`);
-                        if(Array.isArray(data))  {
-                            setCards(data);
-                            setLoggedIn(true);
-                            props.history.push('/');
-                        }
-                    })
-                    .catch(error => {
-                        console.log(error);
-                    })
+        Promise.all([api.getUserInfo(), api.getCardList()])
+            .then(([cards, currentUser]) => {
+                setCards(cards.data);
+                setCurrentUser(currentUser.data);
+                // setEmail(currentUser.email);
 
             })
-            .catch(error => {
-                console.log(error);
-            })
+            .catch((err) => console.log(err))
 
 
-
+        setLoggedIn(true);
+        props.history.push('/');
     }, [props.history]);
+    // Успешное прохождение авторизации
+    // const successfulAuth = useCallback(() => {
+    //     api.getUserInfo()
+    //         .then(({data}) => {
+    //             if (!data) throw new Error(`Error: ${data.message}`);
+    //             setCurrentUser(data);
+    //             setEmail({email: data.email});
+    //             api.getCardList()
+    //                 .then(({data}) => {
+    //                     if (!data) throw new Error(`Error: ${data.message}`);
+    //                     if(Array.isArray(data))  {
+    //                         setCards(data);
+    //                         setLoggedIn(true);
+    //                         props.history.push('/');
+    //                     }
+    //                 })
+    //                 .catch(error => {
+    //                     console.log(error);
+    //                 })
+    //
+    //         })
+    //         .catch(error => {
+    //             console.log(error);
+    //         })
+    //
+    //
+    //
+    // }, [props.history]);
 
     // Успешное прохождение авторизации
     // const successfulAuth = useCallback(() => {
@@ -133,7 +135,7 @@ function App(props) {
         auth.authorize(password, email)
             .then((res) => {
                 if (!res || res.statusCode === 400 || res.statusCode === 401) throw new Error(`Ошибка: ${res.message}`)
-                if (res.massege === 'Авторизация прошла успешно!' ) {
+                if (res.message === 'Авторизация прошла успешно!' ) {
                     setEmail({email: email});
                     successfulAuth();
                 } else {
