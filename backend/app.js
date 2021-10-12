@@ -3,19 +3,19 @@ require('dotenv').config();
 console.log(require('dotenv').config());
 const mongoose = require('mongoose');
 
-const {PORT = 3000} = process.env;
+const { PORT = 3000 } = process.env;
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
 const cors = require('cors');
-const {celebrate, Joi, errors} = require('celebrate');
+const { celebrate, Joi, errors } = require('celebrate');
 const cookieParser = require('cookie-parser');
-const {login} = require('./controllers/user');
-const {successfulAuth} = require('./controllers/user');
-const {logout} = require('./controllers/user');
-const {createUser} = require('./controllers/user');
+const { login } = require('./controllers/user');
+const { successfulAuth } = require('./controllers/user');
+const { logout } = require('./controllers/user');
+const { createUser } = require('./controllers/user');
 const auth = require('./middlewares/auth');
 const NotFoundError = require('./errors/not-found-err');
-const {requestLogger, errorLogger} = require('./middlewares/logger');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const whiteList = ['http://vitaliymontana.students.nomoredomains.club',
   'https://vitaliymontana.students.nomoredomains.club',
@@ -31,13 +31,12 @@ const corsOptions = {
   credentials: true,
 };
 
-
 const app = express();
 app.use(cors(corsOptions));
 app.use(helmet());
 app.use(cookieParser());
 app.use(bodyParser.json()); // для собирания JSON-формата
-app.use(bodyParser.urlencoded({extended: true})); // для приёма веб-страниц внутри POST-запроса
+app.use(bodyParser.urlencoded({ extended: true })); // для приёма веб-страниц внутри POST-запроса
 // app.use(cors(corsOptions));
 mongoose.connect('mongodb://localhost:27017/mestodb');
 app.use(requestLogger); // подключаем логгер запросов
@@ -79,9 +78,9 @@ app.use(errorLogger); // подключаем логгер ошибок
 app.use(errors()); // обработчик ошибок celebrate
 app.use((err, req, res, next) => {
   // если у ошибки нет статуса, выставляем 500
-  const {statusCode = 500, message} = err;
+  const { statusCode = 500, message } = err;
   // проверяем статус и выставляем сообщение в зависимости от него
-  res.status(statusCode).send({message: statusCode === 500 ? 'На сервере произошла ошибка' : message});
+  res.status(statusCode).send({ message: statusCode === 500 ? 'На сервере произошла ошибка' : message });
 });
 
 app.listen(PORT, () => {

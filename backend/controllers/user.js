@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const User = require('../models/user');
 
-const {JWT_SECRET, NODE_ENV} = process.env;
+const { JWT_SECRET, NODE_ENV } = process.env;
 
 const NotFoundError = require('../errors/not-found-err');
 const BadRequestErr = require('../errors/bad-request-err');
@@ -37,20 +37,20 @@ module.exports.createUser = (req, res, next) => {
 };
 
 module.exports.login = (req, res, next) => {
-  const {email, password} = req.body;
+  const { email, password } = req.body;
 
   return User.findUserByCredentials(email, password)
     .then((user) => {
       // аутентификация успешна! пользователь в переменной user
       // вернём токен
-      const token = jwt.sign({_id: user._id}, NODE_ENV === 'production' ? JWT_SECRET : 'jwt-secret', {expiresIn: '7d'});
+      const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'jwt-secret', { expiresIn: '7d' });
       res.cookie('jwt', token, {
         maxAge: 3600000 * 24 * 7,
         httpOnly: true,
         sameSite: 'none',
         secure: true,
       });
-      res.status(200).send({message: 'Авторизация прошла успешно!'});
+      res.status(200).send({ message: 'Авторизация прошла успешно!' });
     })
     .catch((err) => {
       throw new UnauthorizedErr(err.message);
@@ -64,7 +64,7 @@ module.exports.getUser = (req, res, next) => {
       if (!user) {
         throw new NotFoundError('Пользователь по указанному _id не найден.');
       }
-      return res.send({data: user});
+      return res.send({ data: user });
     })
     .catch((err) => {
       if (err.name === 'CastError') {
@@ -79,7 +79,7 @@ module.exports.getUser = (req, res, next) => {
 
 module.exports.getUsers = (req, res, next) => {
   User.find({})
-    .then((users) => res.send({data: users}))
+    .then((users) => res.send({ data: users }))
     .catch(next);
 };
 
@@ -89,7 +89,7 @@ module.exports.getProfile = (req, res, next) => {
       if (!user) {
         throw new NotFoundError('Пользователь по указанному _id не найден.');
       }
-      return res.send({data: user});
+      return res.send({ data: user });
     })
     .catch((err) => {
       if (err.name === 'CastError') {
@@ -103,14 +103,14 @@ module.exports.getProfile = (req, res, next) => {
 };
 
 module.exports.updateProfile = (req, res, next) => {
-  const {name, about} = req.body;
+  const { name, about } = req.body;
 
-  User.findByIdAndUpdate(req.user._id, {name, about}, {new: true, runValidators: true})
+  User.findByIdAndUpdate(req.user._id, { name, about }, { new: true, runValidators: true })
     .then((user) => {
       if (!user) {
         throw new NotFoundError('Пользователь по указанному _id не найден.');
       }
-      return res.send({data: user});
+      return res.send({ data: user });
     })
     .catch((err) => {
       if (err.name === 'CastError') {
@@ -125,13 +125,13 @@ module.exports.updateProfile = (req, res, next) => {
 };
 
 module.exports.updateAvatar = (req, res, next) => {
-  const {avatar} = req.body;
-  User.findByIdAndUpdate(req.user._id, {avatar}, {new: true, runValidators: true})
+  const { avatar } = req.body;
+  User.findByIdAndUpdate(req.user._id, { avatar }, { new: true, runValidators: true })
     .then((user) => {
       if (!user) {
         throw new NotFoundError('Пользователь по указанному _id не найден.');
       }
-      return res.send({data: user});
+      return res.send({ data: user });
     })
     .catch((err) => {
       if (err.name === 'CastError') {
@@ -145,8 +145,8 @@ module.exports.updateAvatar = (req, res, next) => {
     .catch(next);
 };
 module.exports.logout = (req, res) => {
-  res.clearCookie('jwt').send({message: 'Вы вышли!'});
+  res.clearCookie('jwt').send({ message: 'Вы вышли!' });
 };
 module.exports.successfulAuth = (req, res) => {
-  res.send({message: 'Вы авторизованы!'});
+  res.send({ message: 'Вы авторизованы!' });
 };
