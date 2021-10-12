@@ -327,9 +327,8 @@ function App(props) {
 
     };
 
-    function handleCardLike(card) {
+    function handleCardLike({card}) {
         console.log('>>>>>cardLike' + JSON.stringify(card));
-        console.log('>>>>>cardLike2' + JSON.stringify(card.data));
         const isLiked = card.likes.some(i => i._id === currentUser._id);
         // Отправляем запрос в API и получаем обновлённые данные карточки
         api.changeLikeCardStatus(card._id, !isLiked)
