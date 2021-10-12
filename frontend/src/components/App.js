@@ -56,7 +56,6 @@ function App(props) {
                     setRegistered(false);
                 } else {
                     setRegistered(true);
-                    // setEmail({email: res.data.email});
                 }
                 setIsInfoTooltipOpen(true);
             })
@@ -81,8 +80,6 @@ function App(props) {
             .then(({data}) => {
                 if (!data) throw new Error(`Error: ${data.message}`);
                 setCurrentUser(data);
-                console.log("data>>>Email" + JSON.stringify(data));
-                console.log("data>>>Email" + JSON.stringify(currentUser.email))
                 setEmail({email: data.email});
                 api.getCardList()
                     .then(({data}) => {
@@ -159,7 +156,6 @@ function App(props) {
             .then(res => {
                 if (res) {
                     successfulAuth();
-                    // setEmail({email: res.data.email});
                 }
             })
             .catch(() => {
@@ -343,9 +339,11 @@ function App(props) {
             });
     }
 
-    function handleCardDelete(card) {
+    function handleCardDelete({card}) {
         api.deleteCard(card._id)
             .then(_ => {
+                console.log("delete data" + JSON.stringify(card._id));
+                console.log("delete data 2 " + JSON.stringify(card.data));
                 setCards((state) => state.filter((c) => c._id !== card._id));
             })
             .catch(error => {
