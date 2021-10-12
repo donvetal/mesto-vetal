@@ -240,7 +240,7 @@ function App(props) {
         console.log('>>>>>cardLike isLiked1' + JSON.stringify(isLiked));
         console.log('>>>>>cardLike currentUser._id' + JSON.stringify(currentUser._id));
         // Отправляем запрос в API и получаем обновлённые данные карточки
-        api.changeLikeCardStatus(card._id, !isLiked)
+        api.changeLikeCardStatus(card._id, isLiked)
             .then((newCard) => {
                 console.log('>>>>>cardLike isLiked2' + JSON.stringify(isLiked));
                 console.log('>>>>>cardLike3' + JSON.stringify(newCard));
