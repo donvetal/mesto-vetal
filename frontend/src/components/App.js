@@ -328,7 +328,7 @@ function App(props) {
     };
 
     function handleCardLike(card) {
-        console.log('>>>>>cardLike' + JSON.stringify(card));
+        // console.log('>>>>>cardLike' + JSON.stringify(card));
         const isLiked = card.likes.some(i => i._id === currentUser._id);
         // console.log('>>>>>cardLike currentUser._id' + JSON.stringify(currentUser._id));
         // Отправляем запрос в API и получаем обновлённые данные карточки
@@ -345,11 +345,11 @@ function App(props) {
     function handleCardDelete(card) {
         api.deleteCard(card._id)
             .then(() => {
-                console.log("delete card1" + JSON.stringify(card.data));
-                console.log("delete card2" + JSON.stringify(card));
-                console.log("delete data3" + JSON.stringify(card.owner._id));
-                console.log("delete card._id" + JSON.stringify(card._id));
-                console.log("delete currentUser._id" + JSON.stringify(currentUser._id));
+                // console.log("delete card1" + JSON.stringify(card.data));
+                // console.log("delete card2" + JSON.stringify(card));
+                // console.log("delete data3" + JSON.stringify(card.owner._id));
+                // console.log("delete card._id" + JSON.stringify(card._id));
+                // console.log("delete currentUser._id" + JSON.stringify(currentUser._id));
                 setCards((state) => state.filter((c) => c._id !== card._id));
             })
             .catch(error => {
