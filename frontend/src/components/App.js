@@ -235,10 +235,11 @@ function App(props) {
 
     function handleCardLike(card) {
         console.log('>>>>>cardLike' + JSON.stringify(card));
-        const isLiked = card.likes.some(i => i._id === currentUser._id);
+        const isLiked = card.likes ? card.likes.some(i => i === currentUser._id) : false;
+        // const isLiked = card.likes.some(i => i._id === currentUser._id);
         console.log('>>>>>cardLike currentUser._id' + JSON.stringify(currentUser._id));
         // Отправляем запрос в API и получаем обновлённые данные карточки
-        api.changeLikeCardStatus(card._id, !isLiked)
+        api.changeLikeCardStatus(card._id, isLiked)
             .then((newCard) => {
                 console.log('>>>>>cardLike3' + JSON.stringify(newCard));
                 setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
