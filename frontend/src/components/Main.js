@@ -45,7 +45,7 @@ function Main({onEditAvatar, onEditProfile, onAddPlace, cards, handleCardClick, 
                         //
                         //
                         //     }) : []}
-                        console.log(JSON.stringify(cards)) &&
+
                         cards.map((card) =>
                             <Card
                                 key={card._id}
@@ -55,7 +55,7 @@ function Main({onEditAvatar, onEditProfile, onAddPlace, cards, handleCardClick, 
                                 cardLink={card.link}
                                 cardName={card.name}
                                 alt={card.name}
-                                cardLikes={card.likes.length}
+                                cardLikes={card.likes != null && Array.isArray(card.likes) ? card.likes.length : 0}
                                 card={card}
 
                             />
