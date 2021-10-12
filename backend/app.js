@@ -4,10 +4,9 @@ const mongoose = require('mongoose');
 const { PORT = 3000 } = process.env;
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
-
+const cors = require('cors');
 const { celebrate, Joi, errors } = require('celebrate');
 const cookieParser = require('cookie-parser');
-const cors = require('./middlewares/cors');
 const { login } = require('./controllers/user');
 const { successfulAuth } = require('./controllers/user');
 const { logout } = require('./controllers/user');
@@ -16,19 +15,19 @@ const auth = require('./middlewares/auth');
 const NotFoundError = require('./errors/not-found-err');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
-// const whiteList = ['http://vitaliymontana.students.nomoredomains.club',
-//   'https://vitaliymontana.students.nomoredomains.club',
-//   'https://localhost:3000',
-//   'http://localhost:3000'];
-//
-// const corsOptions = {
-//   origin: (origin, callback) => {
-//     if (whiteList.indexOf(origin) !== -1) {
-//       callback(null, true);
-//     }
-//   },
-//   credentials: true,
-// };
+const whiteList = ['http://vitaliymontana.students.nomoredomains.club',
+  'https://vitaliymontana.students.nomoredomains.club',
+  'https://localhost:3000',
+  'http://localhost:3000'];
+
+const corsOptions = {
+  origin: (origin, callback) => {
+    if (whiteList.indexOf(origin) !== -1) {
+      callback(null, true);
+    }
+  },
+  credentials: true,
+};
 
 // const corsOptions = {
 //   origin: [
@@ -41,8 +40,8 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 // };
 
 const app = express();
+app.use(cors(corsOptions));
 app.use(helmet());
-app.use(cors);
 app.use(cookieParser());
 app.use(bodyParser.json()); // для собирания JSON-формата
 app.use(bodyParser.urlencoded({ extended: true })); // для приёма веб-страниц внутри POST-запроса
