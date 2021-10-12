@@ -35,13 +35,6 @@ export const authorize = (password, email) => {
             }
             return Promise.reject(`Ошибка: ${res.status}`);
         });
-    // .then(res => res.json())
-    // .then((data) => {
-    //
-    //     if (data.token) {
-    //         return data;
-    //     }
-    // });
 
 };
 
@@ -71,16 +64,3 @@ export const checkAuth = () => {
         });
 };
 
-// export const checkToken = () => {
-//     return fetch(`${BASE_URL}/users/me`, {
-//         method: 'GET',
-//         credentials: "include",
-//         headers: {
-//             "Content-Type": "application/json",
-//             // "Authorization": `Bearer ${token}`
-//
-//         }
-//     })
-//         .then(res => res.json())
-//         .then(data => data);
-// };

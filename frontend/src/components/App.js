@@ -74,6 +74,8 @@ function App(props) {
     //     setLoggedIn(true);
     //     props.history.push('/');
     // }, [props.history]);
+
+
     // Успешное прохождение авторизации
     const successfulAuth = useCallback(() => {
         api.getUserInfo()
@@ -103,31 +105,6 @@ function App(props) {
 
     }, [props.history]);
 
-    // Успешное прохождение авторизации
-    // const successfulAuth = useCallback(() => {
-    //     api.getUserInfo()
-    //         .then(({data}) => {
-    //             if (!data) throw new Error(`Error: ${data.message}`);
-    //             setCurrentUser(data);
-    //         })
-    //         .catch(error => {
-    //             console.log(error);
-    //         })
-    //
-    //     api.getCardList()
-    //         .then(({data}) => {
-    //             if (!data) throw new Error(`Error: ${data.message}`);
-    //             if(Array.isArray(data))  {
-    //                 setCards(data);
-    //             }
-    //         })
-    //         .catch(error => {
-    //             console.log(error);
-    //         })
-    //
-    //     setLoggedIn(true);
-    //     props.history.push('/');
-    // }, [props.history]);
 
     const onLogin = (password, email) => {
         auth.authorize(password, email)
@@ -191,77 +168,6 @@ function App(props) {
     //             console.log(error);
     //         });
     // }, [loggedIn]);
-
-
-
-    // useEffect(() => {
-    //     if (loggedIn) {
-    //         auth.checkToken()
-    //             .then((res) => {
-    //                 if (res) {
-    //                     setEmail({email: res.data.email});
-    //                     setLoggedIn(true);
-    //                 }
-    //
-    //             })
-    //             .then(() => {
-    //                 props.history.push("/");
-    //
-    //             })
-    //             .catch(error => {
-    //                 console.log(error);
-    //             });
-    //
-    //     }
-    // }, [props.history, loggedIn]);
-
-
-    // const onLogin = (password, email) => {
-    //     auth.authorize(password, email)
-    //         .then((data) => {
-    //             if (data && data.hasOwnProperty('token')) {
-    //                 // const cookies = new Cookies();
-    //                 // cookies.set('token', data.token);
-    //                 localStorage.setItem('token', data.token);
-    //                 setEmail({email: email});
-    //                 setLoggedIn(true);
-    //                 props.history.push("/");
-    //             } else {
-    //                 setIsInfoTooltipOpen(true);
-    //             }
-    //         })
-    //         .catch(err => {
-    //             setIsInfoTooltipOpen(true);
-    //             console.log(err);
-    //         });
-    // };
-
-
-    // useEffect(() => {
-    //     // const cookies = new Cookies();
-    //     if (localStorage.getItem('token')) {
-    //         const jwt = localStorage.getItem('token');
-    //         // if (cookies.get('jwt')) {
-    //         //     const jwt = cookies.get('jwt');
-    //         // проверяем токен пользователя
-    //         auth.checkToken(jwt)
-    //             .then((res) => {
-    //                 if (res) {
-    //                     setEmail({email: res.data.email});
-    //                     setLoggedIn(true);
-    //                 }
-    //
-    //             })
-    //             .then(() => {
-    //                 props.history.push("/");
-    //
-    //             })
-    //             .catch(error => {
-    //                 console.log(error);
-    //             });
-    //
-    //     }
-    // }, [props.history]);
 
 
     const handleEditProfileClick = () => {
@@ -328,13 +234,13 @@ function App(props) {
     };
 
     function handleCardLike(card) {
-        // console.log('>>>>>cardLike' + JSON.stringify(card));
+        console.log('>>>>>cardLike' + JSON.stringify(card));
         const isLiked = card.likes.some(i => i._id === currentUser._id);
-        // console.log('>>>>>cardLike currentUser._id' + JSON.stringify(currentUser._id));
+        console.log('>>>>>cardLike currentUser._id' + JSON.stringify(currentUser._id));
         // Отправляем запрос в API и получаем обновлённые данные карточки
         api.changeLikeCardStatus(card._id, !isLiked)
             .then((newCard) => {
-                // console.log('>>>>>cardLike3' + JSON.stringify(newCard));
+                console.log('>>>>>cardLike3' + JSON.stringify(newCard));
                 setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
             })
             .catch(error => {

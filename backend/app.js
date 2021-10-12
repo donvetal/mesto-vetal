@@ -31,15 +31,6 @@ const corsOptions = {
   credentials: true,
 };
 
-// const corsOptions = {
-//   origin: [
-//     'http://vitaliymontana.students.nomoredomains.club',
-//     'https://vitaliymontana.students.nomoredomains.club',
-//     'https://localhost:3000',
-//     'http://localhost:3000',
-//   ],
-//   credentials: true,
-// };
 
 const app = express();
 app.use(cors(corsOptions));
