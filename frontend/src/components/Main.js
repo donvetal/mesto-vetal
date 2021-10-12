@@ -45,6 +45,7 @@ function Main({onEditAvatar, onEditProfile, onAddPlace, cards, handleCardClick, 
                         //
                         //
                         //     }) : []}
+                        console.log(JSON.stringify(cards)) &&
                         cards.map((card) =>
                             <Card
                                 key={card._id}
