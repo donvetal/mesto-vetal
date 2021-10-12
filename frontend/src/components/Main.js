@@ -31,6 +31,20 @@ function Main({onEditAvatar, onEditProfile, onAddPlace, cards, handleCardClick, 
             <section className="elements page__container">
                 <ul className="elements-cards">
                     {
+                        // {cards ? Array.from(cards).map((card) => {
+                        //         return (<Card
+                        //         key={card._id}
+                        //         onCardClick={handleCardClick}
+                        //         onCardLike={onCardLike}
+                        //         onCardDelete={onCardDelete}
+                        //         cardLink={card.link}
+                        //         cardName={card.name}
+                        //         alt={card.name}
+                        //         cardLikes={card.likes.length}
+                        //         card={card}/>)
+                        //
+                        //
+                        //     }) : []}
                         cards.map((card) =>
                             <Card
                                 key={card._id}
