@@ -42,7 +42,7 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const app = express();
 app.use(helmet());
-app.use(cors(corsOptions));
+app.use(cors);
 app.use(cookieParser());
 app.use(bodyParser.json()); // для собирания JSON-формата
 app.use(bodyParser.urlencoded({ extended: true })); // для приёма веб-страниц внутри POST-запроса
