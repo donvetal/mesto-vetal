@@ -235,7 +235,7 @@ function App(props) {
 
     function handleCardLike(card) {
 
-        const isLiked = card.likes.some(c => c.owner === currentUser._id);
+        const isLiked = card.likes.some(likeId => likeId === currentUser._id);
         console.log('isLiked ', isLiked)
         console.log('currentUser ', JSON.stringify(currentUser))
         console.log('@@@@ ', card)
