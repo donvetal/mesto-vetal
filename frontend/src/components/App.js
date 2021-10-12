@@ -47,7 +47,6 @@ function App(props) {
     };
 
 
-
     const handleRegister = (password, email) => {
 
         auth.register(password, email)
@@ -61,20 +60,6 @@ function App(props) {
             })
             .catch((err) => console.log(err));
     };
-    //
-    // const successfulAuth = useCallback(() => {
-    //     Promise.all([api.getUserInfo(), api.getCardList()])
-    //         .then(([cards, currentUser]) => {
-    //             setCards(cards.data);
-    //             setCurrentUser(currentUser.data);
-    //         })
-    //         .catch((err) => console.log(err))
-    //
-    //
-    //     setLoggedIn(true);
-    //     props.history.push('/');
-    // }, [props.history]);
-
 
     // Успешное прохождение авторизации
     const successfulAuth = useCallback(() => {
@@ -86,7 +71,7 @@ function App(props) {
                 api.getCardList()
                     .then(({data}) => {
                         if (!data) throw new Error(`Error: ${data.message}`);
-                        if(Array.isArray(data))  {
+                        if (Array.isArray(data)) {
                             setCards(data);
                             setLoggedIn(true);
                             props.history.push('/');
@@ -94,13 +79,12 @@ function App(props) {
                     })
                     .catch(error => {
                         console.log(error);
-                    })
+                    });
 
             })
             .catch(error => {
                 console.log(error);
-            })
-
+            });
 
 
     }, [props.history]);
@@ -109,8 +93,8 @@ function App(props) {
     const onLogin = (password, email) => {
         auth.authorize(password, email)
             .then((res) => {
-                if (!res || res.statusCode === 400 || res.statusCode === 401) throw new Error(`Ошибка: ${res.message}`)
-                if (res.message === 'Авторизация прошла успешно!' ) {
+                if (!res || res.statusCode === 400 || res.statusCode === 401) throw new Error(`Ошибка: ${res.message}`);
+                if (res.message === 'Авторизация прошла успешно!') {
                     setEmail({email: email});
                     successfulAuth();
                 } else {
@@ -124,10 +108,9 @@ function App(props) {
     };
 
 
-
     // Проверка авторизации пользователя
     useEffect(() => {
-        setIsAuthChecking(true)
+        setIsAuthChecking(true);
 
         auth.checkAuth()
             .then(res => {
@@ -136,38 +119,14 @@ function App(props) {
                 }
             })
             .catch(() => {
-                setIsAuthChecking(false)
-                props.history.push('/signin')
+                setIsAuthChecking(false);
+                props.history.push('/signin');
             })
             .finally(() => {
-                setIsAuthChecking(false)
+                setIsAuthChecking(false);
             });
 
     }, [props.history, successfulAuth]);
-
-
-
-    // useEffect(() => {
-    //     if (!loggedIn) return;
-    //     api.getCardList()
-    //         .then(data => {
-    //             setCards(data);
-    //         })
-    //         .catch(error => {
-    //             console.log(error);
-    //         });
-    // }, [loggedIn]);
-    //
-    // useEffect(() => {
-    //     if (!loggedIn) return;
-    //     api.getUserInfo()
-    //         .then(data => {
-    //             setCurrentUser(data);
-    //         })
-    //         .catch(error => {
-    //             console.log(error);
-    //         });
-    // }, [loggedIn]);
 
 
     const handleEditProfileClick = () => {
@@ -202,7 +161,6 @@ function App(props) {
         setSelectedCard(card);
         setIsImagePopupOpen(true);
     };
-
 
 
     const [selectedCard, setSelectedCard] = React.useState({});
@@ -243,33 +201,26 @@ function App(props) {
                 setCards((state) => state.map((currentCard) => currentCard._id === data._id ? data : currentCard));
             })
             .catch(error => {
-                console.log( error);
+                console.log(error);
             });
 
 
     }
 
     function handleCardDelete(cardId) {
-        console.log('arg card ', cardId)
+
         api.deleteCard(cardId)
-            .then(resp => {
-                // console.log("delete card1" + JSON.stringify(card.data));
-                // console.log("delete card2" + JSON.stringify(card));
-                // console.log("delete data3" + JSON.stringify(card.owner._id));
-                // console.log("delete card._id" + JSON.stringify(card._id));
-                // console.log("delete currentUser._id" + JSON.stringify(currentUser._id));
-                console.log('>>>> ', resp)
+            .then(_ => {
                 setCards((state) => state.filter((c) => c._id !== cardId));
             })
             .catch(error => {
-                console.log('eeeee ', error);
+                console.log(error);
             });
     }
 
     function handleAddPlace(e, card) {
         api.addNewCard(card)
             .then((card) => {
-                // console.log(">>>>>> " + JSON.stringify(card));
                 setCards([card.data, ...cards]);
                 closeAllPopups();
             })

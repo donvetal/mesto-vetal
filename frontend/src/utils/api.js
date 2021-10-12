@@ -7,24 +7,21 @@ export class Api {
 
     getCardList = () => this._fetch('GET', 'include', '/cards');
 
-    getUserInfo = () => this._fetch('GET','include', '/users/me');
-    //
-    // deleteLike = (id) => this._fetch('DELETE','include', '/cards/likes/' + id);
-    // putLike = (id) => this._fetch('PUT','include', '/cards/likes/' + id);
+    getUserInfo = () => this._fetch('GET', 'include', '/users/me');
 
-    deleteLike = (id) => this._fetch('DELETE','include', `/cards/${id}/likes/`);
+    deleteLike = (id) => this._fetch('DELETE', 'include', `/cards/${id}/likes/`);
 
-    putLike = (id) => this._fetch('PUT','include', `/cards/${id}/likes/`);
+    putLike = (id) => this._fetch('PUT', 'include', `/cards/${id}/likes/`);
 
     changeLikeCardStatus = (id, isLiked) => isLiked ? this.putLike(id) : this.deleteLike(id);
 
-    deleteCard = (id) => this._fetch('DELETE','include', '/cards/' + id);
+    deleteCard = (id) => this._fetch('DELETE', 'include', '/cards/' + id);
 
-    setUserInfo = (name, about) => this._fetch('PATCH','include', '/users/me', {name, about});
+    setUserInfo = (name, about) => this._fetch('PATCH', 'include', '/users/me', {name, about});
 
-    setUserAvatar = (link) => this._fetch('PATCH','include', '/users/me/avatar', {'avatar': link});
+    setUserAvatar = (link) => this._fetch('PATCH', 'include', '/users/me/avatar', {'avatar': link});
 
-    addNewCard = (body) => this._fetch('POST','include', '/cards', body);
+    addNewCard = (body) => this._fetch('POST', 'include', '/cards', body);
 
 
     _fetch(method, credentials, path, body) {
