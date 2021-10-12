@@ -304,7 +304,7 @@ function App(props) {
 
     const handleUpdateUser = (currentUser) => {
         api.setUserInfo(currentUser.name, currentUser.about)
-            .then((data) => {
+            .then(({data}) => {
                 setCurrentUser(data);
                 closeAllPopups();
 
