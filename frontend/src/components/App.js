@@ -133,7 +133,7 @@ function App(props) {
         auth.authorize(password, email)
             .then((res) => {
                 if (!res || res.statusCode === 400 || res.statusCode === 401) throw new Error(`Ошибка: ${res.message}`)
-                if (res.massege === 'Авторизация прошла успешно!' ) {
+                if (res.message === 'Авторизация прошла успешно!' ) {
                     setEmail({email: email});
                     successfulAuth();
                 } else {
@@ -328,10 +328,13 @@ function App(props) {
     };
 
     function handleCardLike(card) {
+        console.log('>>>>>cardLike' + JSON.stringify(card));
+        console.log('>>>>>cardLike2' + JSON.stringify(card.data));
         const isLiked = card.likes.some(i => i._id === currentUser._id);
         // Отправляем запрос в API и получаем обновлённые данные карточки
         api.changeLikeCardStatus(card._id, !isLiked)
-            .then(({newCard}) => {
+            .then((newCard) => {
+                console.log('>>>>>cardLike3' + JSON.stringify(newCard));
                 setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
             })
             .catch(error => {
