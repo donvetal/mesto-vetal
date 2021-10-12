@@ -330,11 +330,11 @@ function App(props) {
     function handleCardLike(card) {
         console.log('>>>>>cardLike' + JSON.stringify(card));
         const isLiked = card.likes.some(i => i._id === currentUser._id);
-        console.log('>>>>>cardLike currentUser._id' + JSON.stringify(currentUser._id));
+        // console.log('>>>>>cardLike currentUser._id' + JSON.stringify(currentUser._id));
         // Отправляем запрос в API и получаем обновлённые данные карточки
         api.changeLikeCardStatus(card._id, !isLiked)
             .then((newCard) => {
-                console.log('>>>>>cardLike3' + JSON.stringify(newCard));
+                // console.log('>>>>>cardLike3' + JSON.stringify(newCard));
                 setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
             })
             .catch(error => {
@@ -345,7 +345,6 @@ function App(props) {
     function handleCardDelete(card) {
         api.deleteCard(card._id)
             .then(() => {
-                // const isOwn = card.owner._id === currentUser._id;
                 console.log("delete card1" + JSON.stringify(card.data));
                 console.log("delete card2" + JSON.stringify(card));
                 console.log("delete data3" + JSON.stringify(card.owner._id));
