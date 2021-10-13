@@ -29,22 +29,6 @@ const corsOptions = {
   credentials: true,
 };
 
-// const whiteList = ['http://vitaliymontana.students.nomoredomains.club',
-//   'http://api.vitaliymont.students.nomoredomains.club',
-//   'https://api.vitaliymont.students.nomoredomains.club',
-//   'https://vitaliymontana.students.nomoredomains.club',
-//   'https://localhost:3000',
-//   'http://localhost:3000'];
-//
-// const corsOptions = {
-//   origin: (origin, callback) => {
-//     if (whiteList.indexOf(origin) !== -1) {
-//       callback(null, true);
-//     }
-//   },
-//   credentials: true,
-// };
-
 const app = express();
 app.use(cors(corsOptions));
 app.use(helmet());
