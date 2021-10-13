@@ -18,6 +18,8 @@ const NotFoundError = require('./errors/not-found-err');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const whiteList = ['http://vitaliymontana.students.nomoredomains.club',
+  'http://api.vitaliymont.students.nomoredomains.club',
+  'https://api.vitaliymont.students.nomoredomains.club',
   'https://vitaliymontana.students.nomoredomains.club',
   'https://localhost:3000',
   'http://localhost:3000'];
