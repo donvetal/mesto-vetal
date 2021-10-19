@@ -7,6 +7,7 @@ const { PORT = 3000 } = process.env;
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
 const cors = require('cors');
+const rateLimit = require('express-rate-limit');
 const { celebrate, Joi, errors } = require('celebrate');
 const cookieParser = require('cookie-parser');
 const { login } = require('./controllers/user');
@@ -30,7 +31,12 @@ const corsOptions = {
 };
 
 const app = express();
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+});
 app.use(cors(corsOptions));
+app.use(limiter);
 app.use(helmet());
 app.use(cookieParser());
 app.use(bodyParser.json()); // для собирания JSON-формата
